@@ -383,8 +383,13 @@
   <div
     class="header__underlay header__underlay-open"
   ></div>
+  {%- comment -%}
+    Demoted from <h1> to <span>: the TME hero section provides the homepage's
+    single h1. Stock Horizon needs this fallback because its index template has
+    no heading of its own.
+  {%- endcomment -%}
   {%- if request.page_type == 'index' -%}
-    <h1 class="visually-hidden">{{ shop.name }}</h1>
+    <span class="visually-hidden">{{ shop.name }}</span>
   {%- endif -%}
   {% for row in rows %}
     {% liquid
@@ -1259,6 +1264,21 @@
   "tag": "header",
   "class": "header-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Subscribe call to action"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_label",
+      "label": "Button label",
+      "default": "Subscribe & Save"
+    },
+    {
+      "type": "url",
+      "id": "subscribe_link",
+      "label": "Button link"
+    },
     {
       "type": "header",
       "content": "t:content.logo"

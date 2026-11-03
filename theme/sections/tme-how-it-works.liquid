@@ -1,0 +1,122 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap">
+    <div class="tme-section-head{% if s.align == 'center' %} tme-section-head--center{% endif %} tme-reveal">
+      {%- if s.eyebrow != blank -%}
+        <p class="tme-eyebrow">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="tme-h2">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <p class="tme-body tme-body--muted tme-measure">{{ s.body }}</p>
+      {%- endif -%}
+    </div>
+
+    <ol class="tme-steps" style="list-style: none; margin: 0; padding: 0;">
+      {%- for block in section.blocks -%}
+        <li
+          class="tme-step tme-reveal"
+          style="--tme-reveal-delay: {{ forloop.index0 | times: 110 }}ms;"
+          {{ block.shopify_attributes }}
+        >
+          <span class="tme-step__num" aria-hidden="true">
+            {{- forloop.index | prepend: '0' | slice: -2, 2 -}}
+          </span>
+          <h3 class="tme-step__title">{{ block.settings.title }}</h3>
+          <p class="tme-step__text">{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if s.cta_label != blank -%}
+      <div class="tme-reveal" style="margin-top: var(--tme-space-l); text-align: center;">
+        <a class="tme-btn {% if s.surface == 'berry' or s.surface == 'plum' %}tme-btn--onDark{% else %}tme-btn--primary{% endif %}" href="{{ s.cta_link | default: '#' }}">
+          {{ s.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME How it works",
+  "tag": "section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" },
+        { "value": "berry", "label": "Deep berry" },
+        { "value": "plum", "label": "Plum" }
+      ],
+      "default": "mist"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Header alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "center"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Three steps, then it looks after itself" },
+    { "type": "textarea", "id": "body", "label": "Body" },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Step title" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Describe this step." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME How it works",
+      "category": "The Monthly Edit",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Choose your favourite box",
+            "text": "Coffee, self-care or snacks. Read what goes into each edition and pick the one that sounds like you."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Select your delivery frequency",
+            "text": "Monthly, every two months or quarterly. The longer the gap, the more you save on every delivery."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Enjoy your curated deliveries",
+            "text": "Your first box ships straight away, then arrives on schedule. Pause, skip or cancel from your account."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

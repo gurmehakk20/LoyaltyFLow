@@ -11,25 +11,6 @@
     "main": {
       "type": "product-information",
       "blocks": {
-        "disclosures_g9mWze": {
-          "type": "disclosures",
-          "name": "t:names.disclosures",
-          "settings": {
-            "heading": "Disclosures",
-            "heading_preset": "h5",
-            "open_by_default": false,
-            "icon": "caret",
-            "disclosure_heading_preset": "h6",
-            "text_color": "",
-            "dividers": true,
-            "divider_color": "{{ settings.color_palette.color2 }}",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
@@ -273,29 +254,36 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "t:names.product_description",
+            "tme_subscription": {
+              "type": "tme-subscription-plans",
+              "name": "Subscription options",
               "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "heading": "Purchase options",
+                "default_to_subscription": true,
+                "onetime_label": "One-time purchase",
+                "onetime_note": "Just the one box, no commitment.",
+                "subscribe_note": "Delivered on your schedule. Pause, skip or cancel anytime.",
+                "frequency_legend": "Choose a delivery frequency",
+                "show_note": true,
+                "note": "Your first box ships right away, then on the frequency you picked. Manage or cancel from your account at any time."
+              },
+              "blocks": {}
+            },
+            "tme_inside": {
+              "type": "tme-whats-inside",
+              "name": "Product detail panels",
+              "settings": {
+                "show_description": true,
+                "description_label": "What's inside",
+                "open_first": true,
+                "show_details": true,
+                "details_label": "Product details",
+                "show_subscription_panel": true,
+                "subscription_label": "How the subscription works",
+                "subscription_note": "Your first delivery ships right away. Change frequency, skip a delivery or cancel from your account at any time.",
+                "show_shipping": true,
+                "shipping_label": "Shipping & returns",
+                "shipping_text": "<p>Orders are dispatched within two working days. Subscription deliveries follow the frequency you chose, starting from your order date.</p>"
               },
               "blocks": {}
             }
@@ -304,14 +292,13 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "tme_subscription",
             "buy_buttons_eYQEYi",
-            "text_aEtTtq"
+            "tme_inside"
           ]
         }
       },
-      "block_order": [
-        "disclosures_g9mWze"
-      ],
+      "block_order": [],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",

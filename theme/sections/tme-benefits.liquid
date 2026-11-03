@@ -1,0 +1,173 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap">
+    <div class="tme-section-head{% if s.align == 'center' %} tme-section-head--center{% endif %} tme-reveal">
+      {%- if s.eyebrow != blank -%}
+        <p class="tme-eyebrow">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="tme-h2">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <p class="tme-body tme-body--muted tme-measure">{{ s.body }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="tme-grid" style="--tme-cols: {{ s.columns }};">
+      {%- for block in section.blocks -%}
+        <div
+          class="tme-reveal"
+          style="--tme-reveal-delay: {{ forloop.index0 | times: 80 }}ms;"
+          {{ block.shopify_attributes }}
+        >
+          <div class="tme-benefit">
+            {%- if block.settings.icon != 'none' -%}
+              <span class="tme-benefit__icon">
+                {%- render 'tme-icon', name: block.settings.icon -%}
+              </span>
+            {%- endif -%}
+            <h3 class="tme-benefit__title">{{ block.settings.title }}</h3>
+            <p class="tme-benefit__text">{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME Benefits",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" },
+        { "value": "berry", "label": "Deep berry" },
+        { "value": "plum", "label": "Plum" }
+      ],
+      "default": "berry"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Header alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "center"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why subscribe" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The case for a standing order" },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Subscribing is the easiest way to keep the good things coming, and the kindest to your wallet."
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "savings", "label": "Savings" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "truck", "label": "Delivery" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "repeat", "label": "Repeat" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "sparkle"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "A benefit" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Describe the benefit here." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME Benefits",
+      "category": "The Monthly Edit",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "savings",
+            "title": "Savings that grow",
+            "text": "Every subscription saves on the one-time price, and the longer your frequency the deeper the discount."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "calendar",
+            "title": "Flexible frequencies",
+            "text": "Monthly, every two months or quarterly. Change your mind whenever you like."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Curated by hand",
+            "text": "Every edition is chosen by our team, with something new in each cycle."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "It simply arrives",
+            "text": "No reordering, no forgetting. Your box turns up on schedule."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "repeat",
+            "title": "Pause or skip",
+            "text": "Going away? Skip a delivery or pause your plan from your account."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "Small makers first",
+            "text": "We lead with independent makers and small-batch producers wherever we can."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

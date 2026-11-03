@@ -1,0 +1,196 @@
+{
+  "sections": {
+    "hero": {
+      "type": "tme-hero",
+      "settings": {
+        "min_height": 62,
+        "eyebrow": "Subscribe & Save",
+        "heading": "<p>The good things, <em>on repeat</em></p>",
+        "subheading": "Choose a box, choose how often, and save on every single delivery. Pause, skip or cancel whenever life changes.",
+        "primary_label": "Compare the boxes",
+        "primary_link": "#shopify-section-compare",
+        "secondary_label": "How it works",
+        "secondary_link": "#shopify-section-how"
+      }
+    },
+    "benefits": {
+      "type": "tme-benefits",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "savings",
+            "title": "Up to 12% off, always",
+            "text": "Monthly saves 5%, every two months saves 8%, quarterly saves 12% — applied to every delivery, not just the first."
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "calendar",
+            "title": "Your rhythm, not ours",
+            "text": "Three frequencies to choose from, and you can move between them at any time."
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Never the same box twice",
+            "text": "Each edition is freshly curated, so there is always something you have not tried."
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "repeat",
+            "title": "Full control",
+            "text": "Skip a delivery, pause for a month or cancel outright — all from your account, no emails required."
+          }
+        }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": {
+        "surface": "berry",
+        "align": "center",
+        "eyebrow": "Why subscribe",
+        "heading": "Worth doing properly",
+        "body": "A subscription is the best price we offer, and the least you have to think about it.",
+        "columns": 4
+      }
+    },
+    "boxes": {
+      "type": "tme-product-showcase",
+      "settings": {
+        "collection": "monthly-subscriptions",
+        "surface": "ivory",
+        "align": "center",
+        "eyebrow": "The boxes",
+        "heading": "Three editions to choose from",
+        "body": "Every box below can be subscribed to, or bought once if you would rather try it first.",
+        "columns": 3,
+        "max_products": 3,
+        "show_description": true,
+        "cta_label": "Choose frequency",
+        "footer_label": "",
+        "footer_link": ""
+      }
+    },
+    "compare": {
+      "type": "tme-plan-compare",
+      "settings": {
+        "collection": "monthly-subscriptions",
+        "surface": "white",
+        "eyebrow": "Compare",
+        "heading": "Every box, every frequency",
+        "body": "Prices below are live from Shopify, per delivery, including the subscription discount.",
+        "row_label": "Box",
+        "onetime_label": "One-time",
+        "note": "Discounts apply to every delivery for as long as the subscription is active. Cancel or change frequency at any time."
+      }
+    },
+    "how": {
+      "type": "tme-how-it-works",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Choose your favourite box",
+            "text": "Coffee, self-care or snacks. Each product page shows exactly what the current edition includes."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Select your delivery frequency",
+            "text": "Monthly, every two months or quarterly. The price per delivery updates as you choose."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Enjoy your curated deliveries",
+            "text": "Your first box ships straight away, then arrives on schedule until you say otherwise."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "surface": "mist",
+        "align": "center",
+        "eyebrow": "How it works",
+        "heading": "Three steps, then it looks after itself",
+        "body": "",
+        "cta_label": "",
+        "cta_link": ""
+      }
+    },
+    "faq": {
+      "type": "tme-faq",
+      "blocks": {
+        "f1": {
+          "type": "faq",
+          "settings": {
+            "question": "How do the subscription discounts work?",
+            "answer": "<p>Each frequency carries its own discount, applied to every delivery for as long as the subscription runs. Monthly saves 5%, every two months saves 8% and quarterly saves 12%.</p>"
+          }
+        },
+        "f2": {
+          "type": "faq",
+          "settings": {
+            "question": "When is my first box sent?",
+            "answer": "<p>Straight away. Your first delivery ships as soon as the order is placed, and the next one follows on the frequency you chose.</p>"
+          }
+        },
+        "f3": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I change my frequency later?",
+            "answer": "<p>Yes. Subscriptions are managed from your customer account, where you can change frequency, skip a delivery, pause or cancel.</p>"
+          }
+        },
+        "f4": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I buy a box without subscribing?",
+            "answer": "<p>Of course. Every subscription box can also be bought once, at the standard one-time price, using the purchase options on the product page.</p>"
+          }
+        },
+        "f5": {
+          "type": "faq",
+          "settings": {
+            "question": "What is actually in each box?",
+            "answer": "<p>The contents change every cycle, which is rather the point. Each product page lists what the current edition includes and roughly how many pieces to expect.</p>"
+          }
+        },
+        "f6": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I send a subscription as a gift?",
+            "answer": "<p>For gifting we recommend The Weekend Gift Box, which is a one-time purchase and arrives gift-wrapped with a note card.</p>"
+          }
+        }
+      },
+      "block_order": ["f1", "f2", "f3", "f4", "f5", "f6"],
+      "settings": {
+        "surface": "white",
+        "eyebrow": "Good to know",
+        "heading": "Subscription questions"
+      }
+    },
+    "newsletter": {
+      "type": "tme-newsletter",
+      "settings": {
+        "surface": "soft",
+        "eyebrow": "The newsletter",
+        "heading": "First look at every edition",
+        "body": "A short note each month: what is in the next box, who made it, and the occasional thing we think you will like.",
+        "placeholder": "Email address",
+        "button_label": "Sign up",
+        "success_text": "You are on the list. Look out for the next edition.",
+        "fine_print": "No spam, unsubscribe whenever you like."
+      }
+    }
+  },
+  "order": ["hero", "benefits", "boxes", "compare", "how", "faq", "newsletter"]
+}

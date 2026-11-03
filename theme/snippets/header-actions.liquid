@@ -63,6 +63,16 @@
   {% endif %}
   {{- block.shopify_attributes -}}
 >
+  {%- if section.settings.subscribe_label != blank -%}
+    <a
+      class="tme-header-cta"
+      href="{{ section.settings.subscribe_link | default: '#' }}"
+      data-testid="header-subscribe-cta"
+    >
+      {{ section.settings.subscribe_label }}
+    </a>
+  {%- endif -%}
+
   {% if shop.customer_accounts_enabled %}
     {% liquid
       assign account_actions_style = ''

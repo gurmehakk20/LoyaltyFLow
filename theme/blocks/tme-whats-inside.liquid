@@ -1,0 +1,149 @@
+{%- doc -%}
+  Expandable product detail panels for the product page.
+
+  Everything shown comes from the product record — description, vendor, type,
+  SKU, availability. Nothing about the box contents is invented here: the
+  "what's inside" panel renders the product's own description HTML, which is
+  where the contents list lives.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+  assign variant = product.selected_or_first_available_variant
+  assign s = block.settings
+  assign group = product.selling_plan_groups | first
+-%}
+
+{%- if product != blank -%}
+  <div class="tme-inside" {{ block.shopify_attributes }}>
+    {%- if s.show_description and product.description != blank -%}
+      <details class="tme-inside__item" {% if s.open_first %}open{% endif %}>
+        <summary class="tme-inside__summary">
+          <span>{{ s.description_label | default: "What's inside" }}</span>
+          <span class="tme-inside__icon">{%- render 'tme-icon', name: 'plus' -%}</span>
+        </summary>
+        <div class="tme-inside__panel">{{ product.description }}</div>
+      </details>
+    {%- endif -%}
+
+    {%- if s.show_details -%}
+      <details class="tme-inside__item">
+        <summary class="tme-inside__summary">
+          <span>{{ s.details_label | default: 'Product details' }}</span>
+          <span class="tme-inside__icon">{%- render 'tme-icon', name: 'plus' -%}</span>
+        </summary>
+        <div class="tme-inside__panel">
+          <ul>
+            {%- if product.vendor != blank -%}
+              <li>Curated by {{ product.vendor }}</li>
+            {%- endif -%}
+            {%- if product.type != blank -%}
+              <li>Category: {{ product.type }}</li>
+            {%- endif -%}
+            {%- if variant.sku != blank -%}
+              <li>SKU: {{ variant.sku }}</li>
+            {%- endif -%}
+            {%- if variant.available -%}
+              <li>In stock and ready to ship</li>
+            {%- else -%}
+              <li>Currently unavailable</li>
+            {%- endif -%}
+          </ul>
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if s.show_subscription_panel and group != blank -%}
+      <details class="tme-inside__item">
+        <summary class="tme-inside__summary">
+          <span>{{ s.subscription_label | default: 'How the subscription works' }}</span>
+          <span class="tme-inside__icon">{%- render 'tme-icon', name: 'plus' -%}</span>
+        </summary>
+        <div class="tme-inside__panel">
+          <ul>
+            {%- for alloc in variant.selling_plan_allocations -%}
+              {%- liquid
+                assign plan = alloc.selling_plan
+                assign plan_price = alloc.price
+                assign saved = variant.price | minus: plan_price
+                assign pct = 0
+                if variant.price > 0 and saved > 0
+                  assign pct = saved | times: 100.0 | divided_by: variant.price | round
+                endif
+              -%}
+              <li>
+                <strong>{{ plan.options.first.value | default: plan.name }}</strong>
+                &mdash; {{ plan_price | money }} per delivery
+                {%- if pct > 0 %}, saving {{ pct }}%{% endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+          {%- if s.subscription_note != blank -%}
+            <p style="margin-top: var(--tme-space-s);">{{ s.subscription_note }}</p>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if s.show_shipping and s.shipping_text != blank -%}
+      <details class="tme-inside__item">
+        <summary class="tme-inside__summary">
+          <span>{{ s.shipping_label | default: 'Shipping & returns' }}</span>
+          <span class="tme-inside__icon">{%- render 'tme-icon', name: 'plus' -%}</span>
+        </summary>
+        <div class="tme-inside__panel">{{ s.shipping_text }}</div>
+      </details>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product detail panels",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Expandable panels built from the product's own data. The subscription panel is hidden automatically on products with no selling plans."
+    },
+    { "type": "checkbox", "id": "show_description", "label": "Show description panel", "default": true },
+    { "type": "text", "id": "description_label", "label": "Description panel label", "default": "What's inside" },
+    { "type": "checkbox", "id": "open_first", "label": "Open the first panel by default", "default": true },
+
+    { "type": "checkbox", "id": "show_details", "label": "Show product details panel", "default": true },
+    { "type": "text", "id": "details_label", "label": "Details panel label", "default": "Product details" },
+
+    { "type": "checkbox", "id": "show_subscription_panel", "label": "Show subscription panel", "default": true },
+    {
+      "type": "text",
+      "id": "subscription_label",
+      "label": "Subscription panel label",
+      "default": "How the subscription works"
+    },
+    {
+      "type": "textarea",
+      "id": "subscription_note",
+      "label": "Subscription note",
+      "default": "Your first delivery ships right away. Change frequency, skip a delivery or cancel from your account at any time."
+    },
+
+    { "type": "checkbox", "id": "show_shipping", "label": "Show shipping panel", "default": true },
+    { "type": "text", "id": "shipping_label", "label": "Shipping panel label", "default": "Shipping & returns" },
+    {
+      "type": "richtext",
+      "id": "shipping_text",
+      "label": "Shipping text",
+      "default": "<p>Orders are dispatched within two working days. Subscription deliveries follow the frequency you chose, starting from your order date.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product detail panels",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

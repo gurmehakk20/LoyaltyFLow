@@ -1,0 +1,126 @@
+{%- liquid
+  assign s = section.settings
+  assign form_id = 'tme-newsletter-' | append: section.id
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap tme-wrap--narrow">
+    <div class="tme-newsletter tme-reveal">
+      {%- if s.eyebrow != blank -%}
+        <p class="tme-eyebrow" style="margin: 0;">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="tme-h2">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <p class="tme-body tme-body--muted tme-measure">{{ s.body }}</p>
+      {%- endif -%}
+
+      {%- form 'customer', id: form_id, class: 'tme-newsletter__wrapper' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+
+        {%- if form.posted_successfully? -%}
+          <p class="tme-newsletter__success" role="status">
+            {{- s.success_text | default: 'You are on the list. Look out for the next edition.' -}}
+          </p>
+        {%- else -%}
+          <tme-newsletter class="tme-newsletter__form">
+            <div class="tme-newsletter__field">
+              <label class="tme-visually-hidden" for="{{ form_id }}-email">
+                {{ s.placeholder | default: 'Email address' }}
+              </label>
+              <input
+                id="{{ form_id }}-email"
+                class="tme-newsletter__input"
+                type="email"
+                name="contact[email]"
+                value="{{ form.email }}"
+                placeholder="{{ s.placeholder | default: 'Email address' }}"
+                autocomplete="email"
+                required
+                aria-describedby="{{ form_id }}-error"
+                {% if form.errors %}
+                  aria-invalid="true"
+                {% endif %}
+                data-newsletter-input
+              >
+              <span
+                class="tme-newsletter__error"
+                id="{{ form_id }}-error"
+                role="alert"
+                data-newsletter-error
+              >
+                {%- if form.errors -%}
+                  {{ form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email }}
+                {%- endif -%}
+              </span>
+            </div>
+
+            <button class="tme-btn {% if s.surface == 'berry' or s.surface == 'plum' %}tme-btn--onDark{% else %}tme-btn--primary{% endif %}" type="submit" data-newsletter-submit>
+              <span data-newsletter-label>{{ s.button_label | default: 'Sign up' }}</span>
+            </button>
+          </tme-newsletter>
+        {%- endif -%}
+      {%- endform -%}
+
+      {%- if s.fine_print != blank -%}
+        <p class="tme-newsletter__fine">{{ s.fine_print }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'tme-newsletter.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "TME Newsletter",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" },
+        { "value": "berry", "label": "Deep berry" },
+        { "value": "plum", "label": "Plum" }
+      ],
+      "default": "soft"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The newsletter" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "First look at every edition" },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "A short note each month: what is in the next box, who made it, and the occasional thing we think you will like."
+    },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Sign up" },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "default": "You are on the list. Look out for the next edition."
+    },
+    {
+      "type": "text",
+      "id": "fine_print",
+      "label": "Fine print",
+      "default": "No spam, unsubscribe whenever you like."
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME Newsletter",
+      "category": "The Monthly Edit"
+    }
+  ]
+}
+{% endschema %}

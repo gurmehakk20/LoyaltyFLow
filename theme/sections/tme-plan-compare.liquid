@@ -1,0 +1,144 @@
+{%- liquid
+  assign s = section.settings
+  assign collection = collections[s.collection]
+  assign products = collection.products
+
+  comment
+    Column headers come from the first product that actually has a selling plan
+    group, so the table always reflects the plans configured in Shopify rather
+    than a hardcoded list of frequencies.
+  endcomment
+  assign header_plans = null
+  for product in products
+    assign g = product.selling_plan_groups | first
+    if g != blank and header_plans == null
+      assign header_plans = g.selling_plans
+    endif
+  endfor
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap">
+    <div class="tme-section-head tme-section-head--center tme-reveal">
+      {%- if s.eyebrow != blank -%}
+        <p class="tme-eyebrow">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="tme-h2">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <p class="tme-body tme-body--muted tme-measure">{{ s.body }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if header_plans != blank -%}
+      <div class="tme-compare tme-reveal">
+        <div class="tme-compare__scroll" tabindex="0" role="region" aria-label="{{ s.heading | default: 'Subscription comparison' }}">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">{{ s.row_label | default: 'Box' }}</th>
+                <th scope="col">{{ s.onetime_label | default: 'One-time' }}</th>
+                {%- for plan in header_plans -%}
+                  <th scope="col">{{ plan.options.first.value | default: plan.name }}</th>
+                {%- endfor -%}
+                <th scope="col"><span class="tme-visually-hidden">Action</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for product in products -%}
+                {%- liquid
+                  assign group = product.selling_plan_groups | first
+                  assign variant = product.selected_or_first_available_variant
+                -%}
+                {%- if group != blank -%}
+                  <tr>
+                    <th scope="row">
+                      <a href="{{ product.url }}" style="color: inherit; text-decoration: none;">
+                        {{- product.title -}}
+                      </a>
+                    </th>
+                    <td>{{ variant.price | money }}</td>
+                    {%- for alloc in variant.selling_plan_allocations -%}
+                      {%- liquid
+                        assign plan_price = alloc.price
+                        assign saved = variant.price | minus: plan_price
+                        assign pct = 0
+                        if variant.price > 0 and saved > 0
+                          assign pct = saved | times: 100.0 | divided_by: variant.price | round
+                        endif
+                      -%}
+                      <td>
+                        {{ plan_price | money }}
+                        {%- if pct > 0 -%}
+                          <br><span class="tme-compare__save">save {{ pct }}%</span>
+                        {%- endif -%}
+                      </td>
+                    {%- endfor -%}
+                    <td>
+                      <a class="tme-btn tme-btn--secondary" href="{{ product.url }}" style="padding: 0.7em 1.3em; min-height: 40px;">
+                        Choose
+                      </a>
+                    </td>
+                  </tr>
+                {%- endif -%}
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+        {%- if s.note != blank -%}
+          <p class="tme-plans__note" style="margin-top: var(--tme-space-s);">{{ s.note }}</p>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <p class="tme-body tme-body--muted" style="text-align: center;">
+        No subscription plans found in this collection. Pick a collection whose products have selling plans.
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME Plan comparison",
+  "tag": "section",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Subscription collection" },
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "ivory"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Compare" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Every box, every frequency" },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Prices below are live from Shopify, per delivery, including the subscription discount."
+    },
+    { "type": "text", "id": "row_label", "label": "First column label", "default": "Box" },
+    { "type": "text", "id": "onetime_label", "label": "One-time column label", "default": "One-time" },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Footnote",
+      "default": "Discounts apply to every delivery for as long as the subscription is active. Cancel or change frequency at any time."
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME Plan comparison",
+      "category": "The Monthly Edit"
+    }
+  ]
+}
+{% endschema %}

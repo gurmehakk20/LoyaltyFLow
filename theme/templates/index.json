@@ -1,285 +1,221 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
-      "blocks": {
-        "text_YLPk4p": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "text_color": "{{ settings.color_palette.background }}",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-custom",
-            "custom_button_background": "rgba(0,0,0,0)",
-            "custom_button_text": "{{ settings.color_palette.background }}",
-            "custom_button_border": "{{ settings.color_palette.background }}",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
+    "hero": {
+      "type": "tme-hero",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "background_color": "rgba(0,0,0,0)",
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "min_height": 78,
+        "eyebrow": "The Monthly Edit",
+        "heading": "<p>Something lovely to <em>look forward to</em></p>",
+        "subheading": "Thoughtfully curated boxes of everyday little luxuries, chosen by hand and delivered on the rhythm that suits you.",
+        "primary_label": "Explore the collection",
+        "primary_link": "shopify://collections/monthly-subscriptions",
+        "secondary_label": "Subscribe & Save",
+        "secondary_link": "shopify://collections/monthly-subscriptions"
       }
     },
-    "product_list_fa6P9H": {
-      "type": "product-list",
+    "subscription_boxes": {
+      "type": "tme-product-showcase",
+      "settings": {
+        "collection": "monthly-subscriptions",
+        "surface": "ivory",
+        "align": "center",
+        "eyebrow": "Monthly subscriptions",
+        "heading": "Pick your box",
+        "body": "Three curated editions, each refreshed every cycle. Subscribe and the savings grow with the frequency you choose.",
+        "columns": 3,
+        "max_products": 3,
+        "show_description": true,
+        "cta_label": "",
+        "footer_label": "Compare every plan",
+        "footer_link": "shopify://collections/monthly-subscriptions"
+      }
+    },
+    "why_subscribe": {
+      "type": "tme-benefits",
       "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
+        "b1": {
+          "type": "benefit",
           "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
-              "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
+            "icon": "savings",
+            "title": "Savings that grow",
+            "text": "Every subscription saves on the one-time price, and the longer your frequency the deeper the discount — up to 12%."
+          }
         },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
+        "b2": {
+          "type": "benefit",
           "settings": {
-            "product_card_gap": 4,
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
-          ]
+            "icon": "calendar",
+            "title": "Flexible frequencies",
+            "text": "Monthly, every two months or quarterly. Change your mind whenever you like."
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Curated by hand",
+            "text": "Every edition is chosen by our team, with something new to discover in each cycle."
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "It simply arrives",
+            "text": "No reordering, no forgetting. Your box turns up on schedule, every time."
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "repeat",
+            "title": "Pause or skip",
+            "text": "Going away? Skip a delivery or pause your plan from your account in a couple of taps."
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "Small makers first",
+            "text": "We lead with independent makers and small-batch producers wherever we can."
+          }
         }
       },
-      "name": "t:names.product_list",
+      "block_order": ["b1", "b2", "b3", "b4", "b5", "b6"],
       "settings": {
-        "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "surface": "berry",
+        "align": "center",
+        "eyebrow": "Why subscribe",
+        "heading": "The case for a standing order",
+        "body": "Subscribing is the easiest way to keep the good things coming, and the kindest to your wallet.",
+        "columns": 3
+      }
+    },
+    "how_it_works": {
+      "type": "tme-how-it-works",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Choose your favourite box",
+            "text": "Coffee, self-care or snacks. Read what goes into each edition and pick the one that sounds like you."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Select your delivery frequency",
+            "text": "Monthly, every two months or quarterly. The longer the gap, the more you save on every delivery."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Enjoy your curated deliveries",
+            "text": "Your first box ships straight away, then arrives on schedule. Pause, skip or cancel from your account."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "surface": "mist",
+        "align": "center",
+        "eyebrow": "How it works",
+        "heading": "Three steps, then it looks after itself",
+        "body": "",
+        "cta_label": "Start a subscription",
+        "cta_link": "shopify://collections/monthly-subscriptions"
+      }
+    },
+    "everyday": {
+      "type": "tme-product-showcase",
+      "settings": {
+        "collection": "everyday-essentials",
+        "surface": "white",
+        "align": "center",
+        "eyebrow": "Everyday essentials",
+        "heading": "The pieces we reach for daily",
+        "body": "Buy once, keep forever. Our everyday objects and gift boxes, ready whenever you are.",
+        "columns": 3,
+        "max_products": 6,
+        "show_description": true,
+        "cta_label": "",
+        "footer_label": "Browse everything",
+        "footer_link": "shopify://collections/everyday-essentials"
+      }
+    },
+    "testimonials": {
+      "type": "tme-testimonials",
+      "blocks": {
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "quote": "The coffee box turned my Monday morning into something I actually look forward to.",
+            "attribution": "Sample review — demo content",
+            "rating": 5
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "quote": "I switched to quarterly and barely notice the cost. The self-care edit is always a treat.",
+            "attribution": "Sample review — demo content",
+            "rating": 5
+          }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "quote": "Lovely packaging, and the snack edit disappears within a week in our office.",
+            "attribution": "Sample review — demo content",
+            "rating": 4
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": {
+        "surface": "ivory-deep",
+        "eyebrow": "Kind words",
+        "heading": "What members say",
+        "show_demo_note": true,
+        "demo_note": "Sample content shown for demonstration. These are illustrative placeholders, not verified customer reviews."
+      }
+    },
+    "story": {
+      "type": "tme-story",
+      "settings": {
+        "surface": "white",
+        "media_position": "left",
+        "eyebrow": "Our story",
+        "heading": "Curation as a small, repeated kindness",
+        "body": "<p>The Monthly Edit started with a simple observation: the things that lift an ordinary day are rarely expensive, but they are easy to forget to buy.</p><p>So we do the remembering. Every edition is assembled by hand from makers we have met, tasted and tested, then sent on a rhythm you choose. No noise, no hard sell, just something lovely arriving when it should.</p>",
+        "cta_label": "See what's inside",
+        "cta_link": "shopify://collections/monthly-subscriptions"
+      }
+    },
+    "newsletter": {
+      "type": "tme-newsletter",
+      "settings": {
+        "surface": "soft",
+        "eyebrow": "The newsletter",
+        "heading": "First look at every edition",
+        "body": "A short note each month: what is in the next box, who made it, and the occasional thing we think you will like.",
+        "placeholder": "Email address",
+        "button_label": "Sign up",
+        "success_text": "You are on the list. Look out for the next edition.",
+        "fine_print": "No spam, unsubscribe whenever you like."
       }
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "hero",
+    "subscription_boxes",
+    "why_subscribe",
+    "how_it_works",
+    "everyday",
+    "testimonials",
+    "story",
+    "newsletter"
   ]
 }

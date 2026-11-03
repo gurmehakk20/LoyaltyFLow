@@ -1,0 +1,134 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap">
+    <div class="tme-section-head tme-section-head--center tme-reveal">
+      {%- if s.eyebrow != blank -%}
+        <p class="tme-eyebrow">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="tme-h2">{{ s.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    <div class="tme-quotes">
+      {%- for block in section.blocks -%}
+        <figure
+          class="tme-quote tme-reveal"
+          style="--tme-reveal-delay: {{ forloop.index0 | times: 90 }}ms; margin: 0;"
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.rating > 0 -%}
+            <div class="tme-quote__stars" role="img" aria-label="{{ block.settings.rating }} out of 5">
+              {%- for i in (1..block.settings.rating) -%}
+                {%- render 'tme-icon', name: 'star' -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+          <blockquote class="tme-quote__text" style="margin: 0;">{{ block.settings.quote }}</blockquote>
+          <figcaption class="tme-quote__who">{{ block.settings.attribution }}</figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+
+    {%- if s.show_demo_note -%}
+      <p class="tme-demo-note">{{ s.demo_note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME Testimonials",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "ivory-deep"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Kind words" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What members say" },
+    {
+      "type": "checkbox",
+      "id": "show_demo_note",
+      "label": "Show sample-content disclosure",
+      "default": true,
+      "info": "Keep this on until the quotes are replaced with genuine, verified reviews."
+    },
+    {
+      "type": "textarea",
+      "id": "demo_note",
+      "label": "Disclosure text",
+      "default": "Sample content shown for demonstration. These are illustrative placeholders, not verified customer reviews."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Add a quote here." },
+        {
+          "type": "text",
+          "id": "attribution",
+          "label": "Attribution",
+          "default": "Sample review — demo content"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Stars",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME Testimonials",
+      "category": "The Monthly Edit",
+      "blocks": [
+        {
+          "type": "quote",
+          "settings": {
+            "quote": "The coffee box turned my Monday morning into something I actually look forward to.",
+            "attribution": "Sample review — demo content",
+            "rating": 5
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "quote": "I switched to quarterly and barely notice the cost. The self-care edit is always a treat.",
+            "attribution": "Sample review — demo content",
+            "rating": 5
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "quote": "Lovely packaging, and the snack edit disappears within a week in our office.",
+            "attribution": "Sample review — demo content",
+            "rating": 4
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

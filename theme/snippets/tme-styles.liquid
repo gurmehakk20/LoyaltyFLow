@@ -1,0 +1,7 @@
+{% doc %}
+  Loads The Monthly Edit brand layer. Rendered from layout/theme.liquid after
+  Horizon's own palette so brand tokens can build on theme settings.
+{% enddoc %}
+
+{{ 'tme-brand.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'tme-motion.js' | asset_url }}" defer="defer"></script>

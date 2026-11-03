@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "type": "header",
   "name": "t:names.header",
   "sections": {
@@ -17,11 +16,12 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Free delivery on every subscription &middot; Save up to 12% when you subscribe",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "letter_spacing": "normal",
-            "case": "none"
+            "font_size": "0.8125rem",
+            "letter_spacing": "0.08em",
+            "case": "none",
+            "text_color": "#FDF7F3"
           },
           "blocks": {}
         }
@@ -33,11 +33,11 @@
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.background }}",
-        "divider_width": 1,
+        "background_color": "#7E2347",
+        "divider_width": 0,
         "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "padding-block-start": 9,
+        "padding-block-end": 9
       }
     },
     "header_section": {
@@ -81,9 +81,9 @@
         "show_search": true,
         "search_position": "right",
         "search_row": "top",
-        "show_country": true,
+        "show_country": false,
         "country_selector_style": false,
-        "show_language": true,
+        "show_language": false,
         "localization_font": "heading",
         "localization_font_size": "0.875rem",
         "localization_position": "right",
@@ -94,10 +94,12 @@
         "divider_width": 0,
         "divider_size": "page-width",
         "border_width": 0,
-        "background_color_top": "{{ settings.color_palette.background }}",
+        "background_color_top": "#FDF7F3",
         "enable_transparent_header_home": false,
         "enable_transparent_header_product": false,
-        "enable_transparent_header_collection": false
+        "enable_transparent_header_collection": false,
+        "subscribe_label": "Subscribe & Save",
+        "subscribe_link": "shopify://collections/monthly-subscriptions"
       }
     }
   },

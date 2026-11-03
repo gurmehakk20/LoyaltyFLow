@@ -1,0 +1,106 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap tme-wrap--narrow">
+    <div class="tme-section-head tme-section-head--center tme-reveal">
+      {%- if s.eyebrow != blank -%}
+        <p class="tme-eyebrow">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="tme-h2">{{ s.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    <div class="tme-faq tme-reveal">
+      {%- for block in section.blocks -%}
+        <details class="tme-faq__item" {{ block.shopify_attributes }}>
+          <summary class="tme-faq__q">
+            <span>{{ block.settings.question }}</span>
+            <span class="tme-faq__icon">{%- render 'tme-icon', name: 'plus' -%}</span>
+          </summary>
+          <div class="tme-faq__a">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME FAQ",
+  "tag": "section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "white"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Good to know" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Subscription questions" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Your question" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Your answer.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME FAQ",
+      "category": "The Monthly Edit",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do the subscription discounts work?",
+            "answer": "<p>Each frequency carries its own discount, applied to every delivery for as long as the subscription runs. Monthly saves 5%, every two months saves 8% and quarterly saves 12%.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "When is my first box sent?",
+            "answer": "<p>Straight away. Your first delivery ships as soon as the order is placed, and the next one follows on the frequency you chose.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I change my frequency later?",
+            "answer": "<p>Yes. Subscriptions are managed from your customer account, where you can change frequency, skip a delivery, pause or cancel.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I buy a box without subscribing?",
+            "answer": "<p>Of course. Every subscription box can also be bought once, at the standard one-time price, using the purchase options on the product page.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What is actually in each box?",
+            "answer": "<p>The contents change every cycle, which is rather the point. Each product page lists what the current edition includes and roughly how many pieces to expect.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

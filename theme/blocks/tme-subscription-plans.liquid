@@ -1,0 +1,284 @@
+{%- doc -%}
+  Purchase options for products that have subscription selling plans.
+
+  Renders a one-time / subscribe choice, and inside "subscribe" one radio per
+  selling plan in the group. Every value comes from Shopify:
+  - plan ids from `product.selling_plan_groups[].selling_plans[].id`
+  - prices from `variant.selling_plan_allocations[].price`
+
+  The plan radios are named `selling_plan` and associated with the product form
+  in `blocks/buy-buttons.liquid` through the HTML `form` attribute, so Horizon's
+  `new FormData(form)` picks them up with no extra wiring. When "one time" is
+  selected they are disabled, which removes them from the submitted FormData.
+
+  Renders nothing when the product has no selling plan groups, so one-time-only
+  products (gift boxes, the mug) are untouched.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+  assign variant = product.selected_or_first_available_variant
+  assign group = product.selling_plan_groups | first
+-%}
+
+{%- if product != blank and group != blank and variant != blank -%}
+  {%- liquid
+    assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id
+    assign block_settings = block.settings
+
+    comment
+      Find the deepest discount so it can carry the "best value" flag, rather
+      than hardcoding which frequency wins.
+    endcomment
+    assign best_plan_id = 0
+    assign best_saving = 0
+    for alloc in variant.selling_plan_allocations
+      if variant.price > 0
+        assign saved = variant.price | minus: alloc.price
+        if saved > best_saving
+          assign best_saving = saved
+          assign best_plan_id = alloc.selling_plan.id
+        endif
+      endif
+    endfor
+
+    comment
+      Preselect the plan Shopify already resolved (deep link / cart edit),
+      otherwise the first plan in the group.
+    endcomment
+    assign preselected_plan_id = product.selected_selling_plan.id
+    if preselected_plan_id == blank
+      assign preselected_plan_id = group.selling_plans.first.id
+    endif
+
+    assign subscribe_default = block_settings.default_to_subscription
+    if product.selected_selling_plan != blank
+      assign subscribe_default = true
+    endif
+  -%}
+
+  <tme-purchase-options
+    class="tme-purchase"
+    data-product-id="{{ product.id }}"
+    data-default-mode="{% if subscribe_default %}subscribe{% else %}onetime{% endif %}"
+    {{ block.shopify_attributes }}
+  >
+    <fieldset class="tme-purchase__fieldset">
+      <legend class="tme-purchase__legend">
+        {{- block_settings.heading | default: 'Purchase options' -}}
+      </legend>
+
+      <div class="tme-purchase__options">
+        {%- comment -%} ---------- One-time purchase ---------- {%- endcomment -%}
+        <div
+          class="tme-purchase__option"
+          data-mode-option="onetime"
+          data-selected="{% unless subscribe_default %}true{% else %}false{% endunless %}"
+        >
+          <input
+            type="radio"
+            class="tme-purchase__input"
+            name="tme-mode-{{ block.id }}"
+            id="tme-mode-onetime-{{ block.id }}"
+            value="onetime"
+            data-mode-input
+            {% unless subscribe_default %}
+              checked
+            {% endunless %}
+          >
+          <label class="tme-purchase__head" for="tme-mode-onetime-{{ block.id }}">
+            <span class="tme-purchase__radio" aria-hidden="true"></span>
+            <span class="tme-purchase__title">
+              {{ block_settings.onetime_label | default: 'One-time purchase' }}
+              <span class="tme-purchase__sub">
+                {{- block_settings.onetime_note | default: 'Just the one box, no commitment.' -}}
+              </span>
+            </span>
+            <span class="tme-purchase__price" data-onetime-price>
+              {{- variant.price | money -}}
+            </span>
+          </label>
+        </div>
+
+        {%- comment -%} ---------- Subscribe & save ---------- {%- endcomment -%}
+        <div
+          class="tme-purchase__option"
+          data-mode-option="subscribe"
+          data-selected="{% if subscribe_default %}true{% else %}false{% endif %}"
+        >
+          <input
+            type="radio"
+            class="tme-purchase__input"
+            name="tme-mode-{{ block.id }}"
+            id="tme-mode-subscribe-{{ block.id }}"
+            value="subscribe"
+            data-mode-input
+            {% if subscribe_default %}
+              checked
+            {% endif %}
+          >
+          <label class="tme-purchase__head" for="tme-mode-subscribe-{{ block.id }}">
+            <span class="tme-purchase__radio" aria-hidden="true"></span>
+            <span class="tme-purchase__title">
+              {{ group.name | default: 'Subscribe & Save' }}
+              {%- if best_saving > 0 -%}
+                {%- assign best_pct = best_saving | times: 100.0 | divided_by: variant.price | round -%}
+                <span class="tme-pill tme-pill--save">Save up to {{ best_pct }}%</span>
+              {%- endif -%}
+              <span class="tme-purchase__sub">
+                {{- block_settings.subscribe_note | default: 'Delivered on your schedule. Pause, skip or cancel anytime.' -}}
+              </span>
+            </span>
+            <span class="tme-purchase__price" data-subscribe-price></span>
+          </label>
+
+          <div class="tme-purchase__panel" data-plan-panel {% unless subscribe_default %}hidden{% endunless %}>
+            <fieldset class="tme-plans__list">
+              <legend class="tme-visually-hidden">
+                {{ block_settings.frequency_legend | default: 'Choose a delivery frequency' }}
+              </legend>
+
+              {%- for alloc in variant.selling_plan_allocations -%}
+                {%- liquid
+                  assign plan = alloc.selling_plan
+                  assign plan_price = alloc.price
+                  assign saved = variant.price | minus: plan_price
+                  assign pct = 0
+                  if variant.price > 0 and saved > 0
+                    assign pct = saved | times: 100.0 | divided_by: variant.price | round
+                  endif
+                  assign frequency_label = plan.options.first.value | default: plan.name
+                  assign is_best = false
+                  if plan.id == best_plan_id and best_saving > 0
+                    assign is_best = true
+                  endif
+                -%}
+                <div class="tme-plan{% if is_best %} tme-plan--recommended{% endif %}">
+                  <input
+                    type="radio"
+                    class="tme-plan__input"
+                    name="selling_plan"
+                    form="{{ product_form_id }}"
+                    id="tme-plan-{{ block.id }}-{{ plan.id }}"
+                    value="{{ plan.id }}"
+                    data-plan-input
+                    data-plan-price="{{ plan_price }}"
+                    data-plan-price-formatted="{{ plan_price | money | strip_html | escape }}"
+                    {% if plan.id == preselected_plan_id %}
+                      checked
+                    {% endif %}
+                    {% unless subscribe_default %}
+                      disabled
+                    {% endunless %}
+                  >
+                  <label class="tme-plan__card" for="tme-plan-{{ block.id }}-{{ plan.id }}">
+                    <span class="tme-plan__radio" aria-hidden="true"></span>
+                    <span class="tme-plan__label">
+                      <span class="tme-plan__name">
+                        {{ frequency_label }}
+                        {%- if is_best -%}
+                          <span class="tme-pill tme-pill--best">Best value</span>
+                        {%- endif -%}
+                      </span>
+                      {%- if pct > 0 -%}
+                        <span class="tme-plan__meta">Save {{ pct }}% on every delivery</span>
+                      {%- else -%}
+                        <span class="tme-plan__meta">{{ plan.name }}</span>
+                      {%- endif -%}
+                    </span>
+                    <span class="tme-plan__pricing">
+                      <span class="tme-plan__price">{{ plan_price | money }}</span>
+                      {%- if saved > 0 -%}
+                        <span class="tme-plan__compare">{{ variant.price | money }}</span>
+                      {%- endif -%}
+                    </span>
+                  </label>
+                </div>
+              {%- endfor -%}
+            </fieldset>
+
+            {%- if block_settings.show_note -%}
+              <p class="tme-plans__note">
+                {{- block_settings.note
+                  | default: 'Your first box ships right away, then on the frequency you picked. Manage or cancel from your account at any time.'
+                -}}
+              </p>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </tme-purchase-options>
+
+  <script src="{{ 'tme-purchase-options.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Subscription options",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows one-time and subscription purchase options using the product's real Shopify selling plans. Automatically hidden on products with no selling plan group."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Purchase options"
+    },
+    {
+      "type": "checkbox",
+      "id": "default_to_subscription",
+      "label": "Preselect subscription",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "onetime_label",
+      "label": "One-time label",
+      "default": "One-time purchase"
+    },
+    {
+      "type": "text",
+      "id": "onetime_note",
+      "label": "One-time description",
+      "default": "Just the one box, no commitment."
+    },
+    {
+      "type": "text",
+      "id": "subscribe_note",
+      "label": "Subscription description",
+      "default": "Delivered on your schedule. Pause, skip or cancel anytime."
+    },
+    {
+      "type": "text",
+      "id": "frequency_legend",
+      "label": "Frequency legend (screen readers)",
+      "default": "Choose a delivery frequency"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_note",
+      "label": "Show footnote",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Footnote",
+      "default": "Your first box ships right away, then on the frequency you picked. Manage or cancel from your account at any time."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Subscription options",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

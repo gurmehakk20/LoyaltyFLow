@@ -1,0 +1,96 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap">
+    <div class="tme-split{% if s.media_position == 'right' %} tme-split--reverse{% endif %}">
+      <div class="tme-split__media tme-reveal">
+        {%- if s.image != blank -%}
+          {{
+            s.image
+            | image_url: width: 1200
+            | image_tag:
+              loading: 'lazy',
+              sizes: '(min-width: 850px) 46vw, 92vw',
+              widths: '400, 600, 900, 1200',
+              alt: s.image.alt | default: s.heading
+          }}
+        {%- else -%}
+          <span class="tme-split__placeholder" role="presentation"></span>
+        {%- endif -%}
+      </div>
+
+      <div class="tme-split__body tme-reveal" style="--tme-reveal-delay: 120ms;">
+        {%- if s.eyebrow != blank -%}
+          <p class="tme-eyebrow" style="margin: 0;">{{ s.eyebrow }}</p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="tme-h2">{{ s.heading }}</h2>
+        {%- endif -%}
+        {%- if s.body != blank -%}
+          <div class="tme-body tme-body--muted tme-measure">{{ s.body }}</div>
+        {%- endif -%}
+        {%- if s.cta_label != blank -%}
+          <a
+            class="tme-btn {% if s.surface == 'berry' or s.surface == 'plum' %}tme-btn--onDark{% else %}tme-btn--primary{% endif %}"
+            href="{{ s.cta_link | default: '#' }}"
+          >
+            {{ s.cta_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME Story",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" },
+        { "value": "berry", "label": "Deep berry" },
+        { "value": "plum", "label": "Plum" }
+      ],
+      "default": "white"
+    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Curation as a small, repeated kindness" },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>The Monthly Edit started with a simple observation: the things that lift an ordinary day are rarely expensive, but they are easy to forget to buy.</p><p>So we do the remembering. Every edition is assembled by hand from makers we have met, tasted and tested, then sent on a rhythm you choose. No noise, no hard sell, just something lovely arriving when it should.</p>"
+    },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "presets": [
+    {
+      "name": "TME Story",
+      "category": "The Monthly Edit"
+    }
+  ]
+}
+{% endschema %}

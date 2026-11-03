@@ -1,0 +1,151 @@
+{%- liquid
+  assign s = section.settings
+  assign collection = collections[s.collection]
+  assign products = collection.products
+  assign count = s.max_products | default: 3
+-%}
+
+<section class="tme-section tme-section--{{ s.surface }}">
+  <div class="tme-wrap">
+    <div class="tme-section-head{% if s.align == 'center' %} tme-section-head--center{% endif %} tme-reveal">
+      {%- if s.eyebrow != blank -%}
+        <p class="tme-eyebrow">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="tme-h2">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <p class="tme-body tme-body--muted tme-measure">{{ s.body }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if products.size > 0 -%}
+      <div class="tme-grid" style="--tme-cols: {{ s.columns }};">
+        {%- for product in products limit: count -%}
+          <div class="tme-reveal" style="--tme-reveal-delay: {{ forloop.index0 | times: 90 }}ms;">
+            {%- render 'tme-product-card',
+              product: product,
+              show_description: s.show_description,
+              cta_label: s.cta_label
+            -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="tme-body tme-body--muted">
+        Choose a collection for this section in the theme editor.
+      </p>
+    {%- endif -%}
+
+    {%- if s.footer_label != blank -%}
+      <div class="tme-section-head--center tme-reveal" style="margin-top: var(--tme-space-l); text-align: center;">
+        <a class="tme-btn tme-btn--primary" href="{{ s.footer_link | default: collection.url }}">
+          {{ s.footer_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME Product showcase",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Background",
+      "options": [
+        { "value": "ivory", "label": "Warm ivory" },
+        { "value": "ivory-deep", "label": "Deep ivory" },
+        { "value": "mist", "label": "Pink mist" },
+        { "value": "soft", "label": "Soft pink" },
+        { "value": "white", "label": "White" },
+        { "value": "berry", "label": "Deep berry" },
+        { "value": "plum", "label": "Plum" }
+      ],
+      "default": "ivory"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Header alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Monthly subscriptions"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Pick your box"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Three curated editions, each refreshed every cycle. Subscribe and the savings grow with the frequency you choose."
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Products shown",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show short description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Card button label",
+      "info": "Leave empty to choose automatically per product."
+    },
+    {
+      "type": "text",
+      "id": "footer_label",
+      "label": "Footer button label"
+    },
+    {
+      "type": "url",
+      "id": "footer_link",
+      "label": "Footer button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME Product showcase",
+      "category": "The Monthly Edit"
+    }
+  ]
+}
+{% endschema %}

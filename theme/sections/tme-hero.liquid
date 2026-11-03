@@ -1,0 +1,128 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="tme-hero" {% if s.min_height != blank %}style="min-height: {{ s.min_height }}vh;"{% endif %}>
+  {%- if s.image != blank -%}
+    <div class="tme-hero__media">
+      {{
+        s.image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          alt: s.image.alt | default: s.heading | strip_html
+      }}
+    </div>
+  {%- else -%}
+    <div class="tme-hero__placeholder" role="presentation"></div>
+  {%- endif -%}
+
+  <div class="tme-hero__scrim" role="presentation"></div>
+
+  <div class="tme-hero__inner">
+    {%- if s.eyebrow != blank -%}
+      <p class="tme-eyebrow tme-reveal">{{ s.eyebrow }}</p>
+    {%- endif -%}
+
+    {%- if s.heading != blank -%}
+      {%- comment -%}
+        richtext wraps its value in <p>, which cannot live inside <h1>.
+      {%- endcomment -%}
+      {%- assign heading_inline = s.heading | remove: '<p>' | remove: '</p>' -%}
+      <h1 class="tme-hero__title tme-reveal" style="--tme-reveal-delay: 80ms;">{{ heading_inline }}</h1>
+    {%- endif -%}
+
+    {%- if s.subheading != blank -%}
+      <p class="tme-hero__sub tme-reveal" style="--tme-reveal-delay: 180ms;">{{ s.subheading }}</p>
+    {%- endif -%}
+
+    {%- if s.primary_label != blank or s.secondary_label != blank -%}
+      <div class="tme-hero__ctas tme-reveal" style="--tme-reveal-delay: 280ms;">
+        {%- if s.primary_label != blank -%}
+          <a class="tme-btn tme-btn--onDark" href="{{ s.primary_link | default: '#' }}">
+            {{ s.primary_label }}
+          </a>
+        {%- endif -%}
+        {%- if s.secondary_label != blank -%}
+          <a class="tme-btn tme-btn--ghostOnDark" href="{{ s.secondary_link | default: '#' }}">
+            {{ s.secondary_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TME Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Editorial lifestyle photography works best. A brand gradient is used when empty."
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height",
+      "min": 40,
+      "max": 100,
+      "step": 2,
+      "unit": "vh",
+      "default": 78
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Monthly Edit"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Something lovely to <em>look forward to</em></p>"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Thoughtfully curated boxes of everyday little luxuries, chosen by hand and delivered on the rhythm that suits you."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button",
+      "default": "Explore the collection"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button",
+      "default": "Subscribe & Save"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TME Hero",
+      "category": "The Monthly Edit"
+    }
+  ]
+}
+{% endschema %}

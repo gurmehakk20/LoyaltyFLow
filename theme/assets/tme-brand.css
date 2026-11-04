@@ -1538,3 +1538,14 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Icons inside pills must not inherit the icon set's intrinsic 24px box. */
+.tme-cart__plan svg,
+.tme-pill svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.tme-cart__plan {
+  white-space: nowrap;
+}
